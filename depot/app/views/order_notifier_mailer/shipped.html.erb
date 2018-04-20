@@ -1,0 +1,15 @@
+<h1>OrderNotifier#shipped</h1>
+
+<p>
+  <%= @greeting %>, find me in app/views/order_notifier_mailer/shipped.html.erb
+</p>
+
+<h3>Pragmaticでのご注文商品を発送しました </h3>
+<p>
+	ご注文の商品を発送したことをお知らせいたします。
+</p>
+
+<table>
+	<tr><th colspan="2">数量</th><th>説明</th></tr>
+	<%= render @order.line_items %>
+</table>

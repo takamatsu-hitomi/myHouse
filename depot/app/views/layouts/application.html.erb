@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pragprog Booksオンラインストア</title>
+    
+    <%= stylesheet_link_tag    "application" , :media => "all" %>
+    <%= javascript_include_tag "application" , :media => "all" %>
+    <%= csrf_meta_tags %>
+
+  </head>
+
+  <body class='<%= controller.controller_name %>'>
+  	<div id="banner">
+      <%= form_tag store_path, class: 'locale' do %>
+        <%= select_tag 'set_locale',
+          options_for_select(LANGUAGES, I18n.locale.to_s),
+          onchange: 'this.form.submit()' %>
+        <%= submit_tag 'submit' %>
+        <%= javascript_tag "$('.locale input').hide()" %>
+      <% end %>
+  		<%= image_tag("ruby.jpg") %>
+  		<%= @page_title || t('.title') %>
+  	</div>
+  	<div if="columns">
+  		<div id="side">
+  			<div id="cart">
+  				<% if @cart %>
+  					<%= hidden_div_if(@cart.line_items.empty?, id: 'cart') do %>
+  						<%= render @cart %>
+  					<% end %>
+  				<% end %>
+  			</div>
+  			<ul>
+  				<li><a href="http://localhost:3000"><%= t('.home') %></a></li>
+  				<li><a href="http://www.../faq"><%= t('.questions') %></a></li>
+  				<li><a href="http://www.../news"><%= t('.news') %></a></li>
+  				<li><a href="http://www.../contacr"><%= t('.contact') %></a></li>
+  			</ul>
+
+        <% if session[:user_id] %>
+        <ul>
+          <li><%= link_to '注文', orders_path %></li>
+          <li><%= link_to '商品', products_path %></li>
+          <li><%= link_to 'ユーザ', users_path %></li>
+        </ul>
+        <%= button_to 'ログアウト', logout_path, method: :delete %>
+        <% end %>
+  		</div>
+  		<div id="main">
+  			<%= yield %>
+  		</div>
+  	</div>
+  </body>
+</html>
